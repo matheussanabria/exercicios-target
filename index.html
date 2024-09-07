@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            margin-bottom: 30px;
+        }
+        input, button {
+            margin: 5px 0;
+            padding: 8px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+        table {
+            margin: 10px 0;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exercícios de JavaScript</h1>
+
+    <!-- Exercício 1 -->
+    <div class="container">
+        <h2>1. Calcular Soma</h2>
+        <h3>Observe o trecho de código abaixo:</h3>
+        <pre>
+        int INDICE = 13, SOMA = 0, K = 0;
+        Enquanto K &lt; INDICE faça { K = K + 1; SOMA = SOMA + K; }
+        Imprimir(SOMA);
+        </pre>
+        <h4>Ao final do processamento, qual será o valor da variável SOMA?</h4>
+        <button onclick="calcularSoma()">Calcular Soma</button>
+        <p id="resultadoSoma"></p>
+    </div>
+
+    <!-- Exercício 2 -->
+    <div class="container">
+        <h2>2. Verificar Fibonacci</h2>
+        <h3>Dado a sequência de Fibonacci, onde se inicia por 0 e 1 e o próximo valor sempre será a soma dos 2 valores anteriores (exemplo: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34...), escreva um programa na linguagem que desejar onde, informado um número, ele calcule a sequência de Fibonacci e retorne uma mensagem avisando se o número informado pertence ou não a sequência.</h3>
+        <b>IMPORTANTE: Esse número pode ser informado através de qualquer entrada de sua preferência ou pode ser previamente definido no código;</b>
+        <br>
+        <input type="number" id="inputFibonacci" placeholder="Digite um número">
+        <button onclick="verificarFibonacci()">Verificar</button>
+        <p id="resultadoFibonacci"></p>
+    </div>
+
+  <!-- Exercício 3 -->
+  <div class="container">
+    <h2>3. Faturamento Diário</h2>
+    <button onclick="carregarFaturamento()">Carregar Faturamento</button>
+    <table id="tabelaFaturamento">
+        <thead>
+            <tr>
+                <th>Dia</th>
+                <th>Faturamento</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <button onclick="calcularFaturamento()">Calcular Faturamento</button>
+
+    <pre id="resultadoFaturamento"></pre>
+</div>
+
+    <!-- Exercício 4 -->
+    <div class="container">
+        <h2>4. Percentual de Representação</h2>
+        <h3>Dado o valor de faturamento mensal de uma distribuidora, detalhado por estado:</h3>
+        <table>
+            <tr>
+                <td>SP:</td>
+                <td><input type="text" id="faturamentoSP" value="67836.43"></td>
+            </tr>
+            <tr>
+                <td>RJ:</td>
+                <td><input type="text" id="faturamentoRJ" value="36678.66"></td>
+            </tr>
+            <tr>
+                <td>MG:</td>
+                <td><input type="text" id="faturamentoMG" value="29229.88"></td>
+            </tr>
+            <tr>
+                <td>ES:</td>
+                <td><input type="text" id="faturamentoES" value="27165.48"></td>
+            </tr>
+            <tr>
+                <td>Outros:</td>
+                <td><input type="text" id="faturamentoOutros" value="19849.53"></td>
+            </tr>
+        </table>
+        <h4>Escreva um programa na linguagem que desejar onde calcule o percentual de representação que cada estado teve dentro do valor total mensal da distribuidora.  </h4>
+        <button onclick="calcularPercentualRepresentacao()">Calcular Percentuais</button>
+        <pre id="resultadoPercentual"></pre>
+    </div>
+
+    <!-- Exercício 5 -->
+    <div class="container">
+        <h2>5. Inverter String</h2>
+        <h3>Escreva um programa que inverta os caracteres de um string.</h3>
+        <b>IMPORTANTE:</b>
+        <ul>
+            <li>
+                Essa string pode ser informada através de qualquer entrada de sua preferência ou pode ser previamente definida no código;
+            </li>
+            <li>
+                Evite usar funções prontas, como, por exemplo, reverse;
+            </li>
+        </ul>
+        <input type="text" id="inputString" placeholder="Digite uma string">
+        <button onclick="inverterString()">Inverter</button>
+        <p id="resultadoString"></p>
+    </div>
+
+    <script>
+        // Exercício 1: Calcular Soma
+        function calcularSoma() {
+            let indice = 13;
+            let soma = 0;
+            let k = 0;
+            while (k < indice) {
+                k = k + 1;
+                soma = soma + k;
+            }
+            document.getElementById('resultadoSoma').textContent = `Valor da variável SOMA: ${soma}`;
+        }
+
+        // Exercício 2: Verificar Fibonacci
+        function verificarFibonacci() {
+            const num = parseInt(document.getElementById('inputFibonacci').value);
+            function pertenceFibonacci(n) {
+                if (n < 0) return false;
+                let a = 0, b = 1;
+                while (b < n) {
+                    [a, b] = [b, a + b];
+                }
+                return b === n;
+            }
+            const resultado = pertenceFibonacci(num) ? `${num} pertence à sequência de Fibonacci.` : `${num} não pertence à sequência de Fibonacci.`;
+            document.getElementById('resultadoFibonacci').textContent = resultado;
+        }
+
+        
+          // Exercício 3: Carregar Faturamento Diário do JSON
+          function carregarFaturamento() {
+            fetch('faturamento.json')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('#tabelaFaturamento tbody');
+                    tbody.innerHTML = ''; // Limpar a tabela antes de gerar novos dados
+                    const faturamentos = data.faturamentos;
+                    faturamentos.forEach((valor, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${index + 1}</td><td>R$${valor.toFixed(2)}</td>`;
+                        tbody.appendChild(row);
+                    });
+                    // Armazenar os valores para uso posterior
+                    window.faturamentos = faturamentos;
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar o arquivo JSON:', error);
+                });
+        }
+
+        // Exercício 3: Calcular Faturamento Diário
+        function calcularFaturamento() {
+            if (!window.faturamentos || window.faturamentos.length === 0) {
+                document.getElementById('resultadoFaturamento').textContent = 'Carregue o faturamento primeiro.';
+                return;
+            }
+            const faturamentosValidos = window.faturamentos.filter(valor => valor > 0);
+            if (faturamentosValidos.length === 0) {
+                document.getElementById('resultadoFaturamento').textContent = 'Não há dados de faturamento para calcular.';
+                return;
+            }
+            const menorFaturamento = Math.min(...faturamentosValidos);
+            const maiorFaturamento = Math.max(...faturamentosValidos);
+            const totalFaturamento = faturamentosValidos.reduce((acc, valor) => acc + valor, 0);
+            const mediaMensal = totalFaturamento / faturamentosValidos.length;
+            const diasAcimaMedia = faturamentosValidos.filter(valor => valor > mediaMensal).length;
+            const resultado = `Menor valor de faturamento: R$${menorFaturamento.toFixed(2)}
+Maior valor de faturamento: R$${maiorFaturamento.toFixed(2)}
+Número de dias com faturamento acima da média: ${diasAcimaMedia}`;
+            document.getElementById('resultadoFaturamento').textContent = resultado;
+        }
+
+        // Exercício 4: Calcular Percentual de Representação
+        function calcularPercentualRepresentacao() {
+            const faturamentoPorEstado = {
+                "SP": parseFloat(document.getElementById('faturamentoSP').value.replace(',', '.')),
+                "RJ": parseFloat(document.getElementById('faturamentoRJ').value.replace(',', '.')),
+                "MG": parseFloat(document.getElementById('faturamentoMG').value.replace(',', '.')),
+                "ES": parseFloat(document.getElementById('faturamentoES').value.replace(',', '.')),
+                "Outros": parseFloat(document.getElementById('faturamentoOutros').value.replace(',', '.'))
+            };
+            const totalMensal = Object.values(faturamentoPorEstado).reduce((acc, valor) => acc + valor, 0);
+            let resultado = 'Estado       Faturamento     Percentual (%)\n';
+            resultado += '-'.repeat(40) + '\n';
+            for (const [estado, valor] of Object.entries(faturamentoPorEstado)) {
+                const percentual = (valor / totalMensal) * 100;
+                resultado += `${estado.padEnd(10)} R$${valor.toFixed(2).padStart(12)} ${percentual.toFixed(2).padStart(15)}%\n`;
+            }
+            document.getElementById('resultadoPercentual').textContent = resultado;
+        }
+
+        // Exercício 5: Inverter String
+        function inverterString() {
+            const input = document.getElementById('inputString').value;
+            let resultado = '';
+            for (let i = input.length - 1; i >= 0; i--) {
+                resultado += input[i];
+            }
+            document.getElementById('resultadoString').textContent = `String Invertida: ${resultado}`;
+        }
+    </script>
+</body>
+</html>
